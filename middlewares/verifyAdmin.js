@@ -1,5 +1,4 @@
 const verifyAdmin = (req, res, next) => {
-
   if (req.user.role !== "admin")
     return res.status(403).json({
       success: false,
@@ -7,7 +6,6 @@ const verifyAdmin = (req, res, next) => {
     });
 
   next();
-
 };
 
 module.exports = verifyAdmin;

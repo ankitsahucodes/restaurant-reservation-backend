@@ -1,7 +1,6 @@
 const Restaurant_Table = require("../models/table.model");
 const tablesData = require("../data/tablesData.json");
 
-
 async function seedData() {
   try {
     for (const table of tablesData) {

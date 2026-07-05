@@ -163,38 +163,6 @@ const getReservationsByDate = async (req, res) => {
   }
 };
 
-const updateReservation = async (req, res) => {
-  try {
-    const { date, timeSlot, guests } = req.body;
-
-    const reservation = await Restaurant_Reservation.findById(req.params.id);
-
-    if (!reservation) {
-      return res.status(404).json({
-        success: false,
-        message: "Reservation not found",
-      });
-    }
-
-    if (date) reservation.date = date;
-    if (timeSlot) reservation.timeSlot = timeSlot;
-    if (guests) reservation.guests = guests;
-
-    await reservation.save();
-
-    res.status(200).json({
-      success: true,
-      message: "Reservation updated successfully",
-      reservation,
-    });
-  } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: error.message,
-    });
-  }
-};
-
 const adminCancelReservation = async (req, res) => {
   try {
     const reservation = await Restaurant_Reservation.findById(req.params.id);
@@ -228,6 +196,5 @@ module.exports = {
   cancelReservation,
   getAllReservations,
   getReservationsByDate,
-  updateReservation,
   adminCancelReservation,
 };

@@ -3,7 +3,6 @@ const User = require("../models/user.model");
 const generateToken = require("../utils/generateToken");
 
 const signup = async (req, res) => {
-
   try {
     const { name, email, role, password } = req.body;
 
@@ -12,7 +11,6 @@ const signup = async (req, res) => {
         success: false,
         message: "All fields are required",
       });
-
 
     const existingUser = await User.findOne({ email });
 
@@ -113,12 +111,26 @@ const logout = (req, res) => {
 };
 
 const me = async (req, res) => {
-  const user = await User.findById(req.user.id).select("-password");
+  try {
+    const user = await User.findById(req.user.id).select("-password");
 
-  res.json({
-    success: true,
-    user,
-  });
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: "User not found",
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      user,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
 };
 
 module.exports = {
